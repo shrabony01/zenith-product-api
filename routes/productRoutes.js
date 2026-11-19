@@ -46,4 +46,21 @@ router.put("/:id",async(req,res)=>{
         res.status(400).json({ message: error.message });
     }
 })
+//DELETE--remove products by id
+router.delete("/:id",async(req,res)=>{
+    try{
+        const deleteProduct = await Product.findByIdAndDelete(req.params.id);
+
+        if(!deleteProduct){
+            return res.status(404).json({message: "Product not found "});
+
+        }
+        res.status(200).json({
+            message: "Product deleted successfully",
+            deleteProduct,
+        });
+    }catch(error){
+        res.status(400).json({message: "Invalid product ID format", error: error.message});
+    }
+});
 export default router;
